@@ -1,8 +1,8 @@
 {
     "info": [
         {
-            "username": "201921160012",
-            "password": "19970129jessica",
+            "username": "your_student_ID",
+            "password": "your_password",
             "schedule": {
                 "on": true,
                 "hour": "8",
