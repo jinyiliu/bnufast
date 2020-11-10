@@ -18,5 +18,10 @@ APScheduler>=3.6.0 (pip install)
 requests>=2.22.0 (pip install)
 
 ## Usage
-First modify config.json then
+First modify config.txt then
 python bnu_daka_mini.py
+
+You can also edit crontab by `contab -e` then add the following line
+0   7   *   *   *   /home/bnu/anaconda3/bin/python /home/bnu/bnufast/bnu_daka_mini.py >> /home/bnu/bnufast/bnu_daka_mini.log
+
+This will check in for you everyday.
