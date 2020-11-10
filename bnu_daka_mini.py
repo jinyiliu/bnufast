@@ -38,7 +38,7 @@ class DaKa(object):
         """Post the hitcard info"""
         res = self.sess.post(self.save_url, data=self.info)
         if res.status_code != 200:
-            raise Exception("{} post info faild, status code {}".format(self.username, res.status_code))
+            raise Exception("{} post info failed, status code {}".format(self.username, res.status_code))
         return json.loads(res.text)
 
     @ staticmethod
@@ -54,7 +54,6 @@ class DaKa(object):
                 raise Exception("{} get info faild, statu code {}".format(self.username, res.status_code))
             html = res.content.decode()
         old_info = json.loads(re.findall(r'oldInfo: (.*)', html)[0][:-1])
-        print("old_info:", old_info)
         name = re.findall(r'realname: "([^\"]+)",', html)[0]
         number = re.findall(r"number: '([^\']+)',", html)[0]
 
@@ -107,32 +106,17 @@ def main(username, password):
 
 
 def run():
-    if not os.path.exists('./config.json'):
-        print('Please create file config.json to {}.'.format(os.getcwd()))
+    if not os.path.exists('/home/bnu/bnufast/config.txt'):
+        print('Please create file config.txt to {}.'.format(os.getcwd()))
         return
 
-    configs = json.loads(open('./config.json', 'r').read())
-    for config in configs["info"]:
-        username = config["username"]
-        password = config["password"]
-        scheduler_flag = config["schedule"]["on"]
-        hour = config["schedule"]["hour"]
-        minute = config["schedule"]["minute"]
-
-        if scheduler_flag:
-            # Schedule task
-            scheduler = BlockingScheduler()
-            scheduler.add_job(main, 'cron', args=[username, password], hour=hour, minute=minute)
-            print('Check in for you at %02d:%02d everyday.' % (int(hour), int(minute)))
-            print('Press Ctrl+{0} to exit'.format('Break' if os.name == 'nt' else 'C'))
-
-            try:
-                scheduler.start()
-            except (KeyboardInterrupt, SystemExit):
-                pass
-        else:
+    with open('/home/bnu/bnufast/config.txt', 'r') as f:
+        lines = f.readlines()
+        for line in lines[1:]:
+            username, password = line.strip('\n').split('\t')
             main(username, password)
 
 
 if __name__ == "__main__":
     run()
+    print(time.strftime("%Y-%m-%d %H:%M:%S", time.localtime()), "Done!")
