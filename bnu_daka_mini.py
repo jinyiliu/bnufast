@@ -106,11 +106,11 @@ def main(username, password):
 
 
 def run():
-    if not os.path.exists('/home/bnu/bnufast/config.txt'):
+    if not os.path.exists('~/bnufast/config.txt'):
         print('Please create file config.txt to {}.'.format(os.getcwd()))
         return
 
-    with open('/home/bnu/bnufast/config.txt', 'r') as f:
+    with open('~/bnufast/config.txt', 'r') as f:
         lines = f.readlines()
         for line in lines[1:]:
             username, password = line.strip('\n').split('\t')
